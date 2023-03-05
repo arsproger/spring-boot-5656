@@ -8,11 +8,13 @@ import com.arsen.services.PersonService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,15 +34,19 @@ public class PaymentController {
         this.personService = personService;
     }
 
-    @GetMapping("/all")
-    public List<PaymentHistoryDTO> findAll() {
+    @GetMapping(value = "/all", produces = MediaType.APPLICATION_XML_VALUE)
+    public List<Object> findAll() {
         log.info("Payment controller: findAll starting!");
 
-        return paymentHistoryService.findAll().stream().map(
+        List<PaymentHistory> paymentHistories = paymentHistoryService.findAll();
+        if(paymentHistories.isEmpty())
+            return Collections.singletonList("List is empty!");
+
+        return paymentHistories.stream().map(
                 this::convertToPaymentHistoryDTO).collect(Collectors.toList());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_XML_VALUE)
     public PaymentHistoryDTO findById(@PathVariable Long id) {
         log.info("Payment controller: findById starting!");
 

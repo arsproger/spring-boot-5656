@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,8 +29,12 @@ public class AdminController {
     }
 
     @GetMapping("/block")
-    public List<PersonDTO> getBlockPerson() {
-        return personService.findByActiveFalse().stream().map(
+    public List<Object> getBlockPerson() {
+        List<Person> people = personService.findByActiveFalse();
+        if(people.isEmpty())
+            return Collections.singletonList("List is empty!");
+
+        return people.stream().map(
                 this::convertToPersonDTO).collect(Collectors.toList());
     }
 
@@ -43,8 +48,12 @@ public class AdminController {
     }
 
     @GetMapping("/unlock")
-    public List<PersonDTO> getUnlockPerson() {
-        return personService.findByActiveTrue().stream().map(
+    public List<Object> getUnlockPerson() {
+        List<Person> people = personService.findByActiveTrue();
+        if(people.isEmpty())
+            return Collections.singletonList("List is empty!");
+
+        return people.stream().map(
                 this::convertToPersonDTO).collect(Collectors.toList());
     }
 

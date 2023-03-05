@@ -41,7 +41,7 @@ public class GlobalExceptionHandler {
     private ResponseEntity<PaymentErrorResponse> handleException(PaymentNotFoundException e) {
         paymentErrorResponse.setMessage("Платеж с таким id не был найден!");
         paymentErrorResponse.setDateTime(LocalDateTime.now().format(
-                DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+                DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")));
 
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)

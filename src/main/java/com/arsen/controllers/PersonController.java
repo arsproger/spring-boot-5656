@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,11 +31,15 @@ public class PersonController {
         return "Hello World!";
     }
 
-    @GetMapping("/all")
-    public List<PersonDTO> getAll() {
+    @GetMapping(value = "/all", produces = MediaType.APPLICATION_XML_VALUE)
+    public List<Object> getAll() {
         log.info("Person controller: getAll starting!");
 
-        return personService.findAll().stream().map(
+        List<Person> people = personService.findAll();
+        if(people.isEmpty())
+            return Collections.singletonList("List is empty!");
+
+        return people.stream().map(
                 this::convertToPersonDTO).collect(Collectors.toList());
     }
 
