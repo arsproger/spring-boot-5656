@@ -29,4 +29,12 @@ public class PersonService {
         return repository.save(person).getId();
     }
 
+    public List<Person> findByActiveTrue() {
+        return repository.findByActiveTrue();
+    }
+
+    public List<Person> findByActiveFalse() {
+        return repository.findByActiveFalse();
+    }
+
 }

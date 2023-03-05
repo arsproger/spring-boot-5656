@@ -25,7 +25,7 @@ public class Person {
     private int age;
     @Column(name = "balance")
     private double balance;
-    @Transient
+    @Column(name = "active")
     private Boolean active = true;
 
     @OneToMany(mappedBy = "person")

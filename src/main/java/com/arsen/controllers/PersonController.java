@@ -33,6 +33,11 @@ public class PersonController {
         this.personErrorResponse = personErrorResponse;
     }
 
+    @GetMapping
+    public String main() {
+        return "Hello World!";
+    }
+
     @GetMapping("/all")
     public List<PersonDTO> getAll() {
         log.info("Person controller: getAll starting!");
