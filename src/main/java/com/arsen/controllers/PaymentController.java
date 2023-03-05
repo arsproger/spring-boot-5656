@@ -1,7 +1,6 @@
 package com.arsen.controllers;
 
 import com.arsen.dto.PaymentHistoryDTO;
-import com.arsen.exceptions.PaymentErrorResponse;
 import com.arsen.models.PaymentHistory;
 import com.arsen.models.Person;
 import com.arsen.services.PaymentHistoryService;
@@ -24,15 +23,13 @@ public class PaymentController {
     private final ModelMapper modelMapper;
     private final PaymentHistoryService paymentHistoryService;
     private final PersonService personService;
-    private final PaymentErrorResponse paymentErrorResponse;
 
     @Autowired
     public PaymentController(ModelMapper modelMapper, PaymentHistoryService paymentHistoryService,
-                             PersonService personService, PaymentErrorResponse paymentErrorResponse) {
+                             PersonService personService) {
         this.modelMapper = modelMapper;
         this.paymentHistoryService = paymentHistoryService;
         this.personService = personService;
-        this.paymentErrorResponse = paymentErrorResponse;
     }
 
     @GetMapping("/all")

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.List;
@@ -29,5 +30,6 @@ public class Person {
     private Boolean active = true;
 
     @OneToMany(mappedBy = "person")
+    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     private List<PaymentHistory> paymentHistories;
 }

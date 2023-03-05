@@ -1,7 +1,6 @@
 package com.arsen.controllers;
 
 import com.arsen.dto.PersonDTO;
-import com.arsen.exceptions.PersonErrorResponse;
 import com.arsen.models.Person;
 import com.arsen.services.PersonService;
 import lombok.extern.slf4j.Slf4j;
@@ -21,13 +20,11 @@ import java.util.stream.Collectors;
 public class AdminController {
     private final ModelMapper modelMapper;
     private final PersonService personService;
-    private final PersonErrorResponse personErrorResponse;
 
     @Autowired
-    public AdminController(ModelMapper modelMapper, PersonService personService, PersonErrorResponse personErrorResponse) {
+    public AdminController(ModelMapper modelMapper, PersonService personService) {
         this.modelMapper = modelMapper;
         this.personService = personService;
-        this.personErrorResponse = personErrorResponse;
     }
 
     @GetMapping("/block")

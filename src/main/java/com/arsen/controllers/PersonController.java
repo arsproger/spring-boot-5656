@@ -1,7 +1,6 @@
 package com.arsen.controllers;
 
 import com.arsen.dto.PersonDTO;
-import com.arsen.exceptions.PersonErrorResponse;
 import com.arsen.models.Person;
 import com.arsen.services.PersonService;
 import lombok.extern.slf4j.Slf4j;
@@ -19,14 +18,11 @@ import java.util.stream.Collectors;
 public class PersonController {
     private final ModelMapper modelMapper;
     private final PersonService personService;
-    private final PersonErrorResponse personErrorResponse;
 
     @Autowired
-    public PersonController(ModelMapper modelMapper, PersonService personService,
-                            PersonErrorResponse personErrorResponse) {
+    public PersonController(ModelMapper modelMapper, PersonService personService) {
         this.modelMapper = modelMapper;
         this.personService = personService;
-        this.personErrorResponse = personErrorResponse;
     }
 
     @GetMapping
