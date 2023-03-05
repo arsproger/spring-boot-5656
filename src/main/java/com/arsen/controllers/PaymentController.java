@@ -2,7 +2,6 @@ package com.arsen.controllers;
 
 import com.arsen.dto.PaymentHistoryDTO;
 import com.arsen.exceptions.PaymentErrorResponse;
-import com.arsen.exceptions.PaymentNotFoundException;
 import com.arsen.models.PaymentHistory;
 import com.arsen.models.Person;
 import com.arsen.services.PaymentHistoryService;
@@ -10,13 +9,11 @@ import com.arsen.services.PersonService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -72,23 +69,4 @@ public class PaymentController {
         return modelMapper.map(paymentHistory, PaymentHistoryDTO.class);
     }
 
-    @ExceptionHandler
-    private ResponseEntity<PaymentErrorResponse> handleException(PaymentNotFoundException e) {
-        paymentErrorResponse.setMessage("Платеж с таким id не был найден!");
-        paymentErrorResponse.setDateTime(LocalDateTime.now().format(
-                DateTimeFormatter.ofPattern("dd.MM.yyyy")));
-
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .contentType(MediaType.APPLICATION_XML)
-                .body(paymentErrorResponse);
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<String> response(RuntimeException e) {
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .contentType(MediaType.APPLICATION_XML)
-                .body("Bad request!");
-    }
 }

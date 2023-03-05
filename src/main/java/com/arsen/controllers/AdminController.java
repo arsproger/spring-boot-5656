@@ -1,8 +1,10 @@
 package com.arsen.controllers;
 
 import com.arsen.dto.PersonDTO;
+import com.arsen.exceptions.PersonErrorResponse;
 import com.arsen.models.Person;
 import com.arsen.services.PersonService;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,14 +17,17 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/admin")
+@Slf4j
 public class AdminController {
     private final ModelMapper modelMapper;
     private final PersonService personService;
+    private final PersonErrorResponse personErrorResponse;
 
     @Autowired
-    public AdminController(ModelMapper modelMapper, PersonService personService) {
+    public AdminController(ModelMapper modelMapper, PersonService personService, PersonErrorResponse personErrorResponse) {
         this.modelMapper = modelMapper;
         this.personService = personService;
+        this.personErrorResponse = personErrorResponse;
     }
 
     @GetMapping("/block")
@@ -36,6 +41,7 @@ public class AdminController {
         Person person = personService.findById(id);
         person.setActive(false);
         personService.save(person);
+        log.warn("Пользователь с id " + id + " заблокирован!");
         return "Пользователь " + person.getName() + " заблокирован!";
     }
 
@@ -50,6 +56,7 @@ public class AdminController {
         Person person = personService.findById(id);
         person.setActive(true);
         personService.save(person);
+        log.warn("Пользователь с id " + id + " разблокирован!");
         return "Пользователь " + person.getName() + " разблокирован!";
     }
 
